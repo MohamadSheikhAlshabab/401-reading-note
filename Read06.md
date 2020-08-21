@@ -53,4 +53,12 @@
    
   --------
   
-  
+  ## Big o notation:
+   - rules to know with big o:
+   - 1 - if you have two different steps in your algorithm, you add up those steps. EX: step1 o(a),step2 o(b) ==> o(a+b)
+   - 2 - drop the constant. EX: step1 o(n) , step2 o(n) ==> o (2n) becomes o(n).
+   - 3 - use different variables, use them also in big o. EX: sep1 o(a) , step2 o(b) ==> o(a x b).
+   - 4 - drop non-dominant terms. o(n**2) <= o(n + n**2) <= o(n**2 + n**2) if left side equal the right side that means the center is equal too depend on rule 2.
+       - EX: step1 o(n) , step2 o(n**2) ==> o(n + n**2) becomes o (n**2).
+
+   --------
