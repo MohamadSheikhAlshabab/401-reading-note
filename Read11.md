@@ -24,3 +24,8 @@
     - j - m: cell format:markdown
   - 2 - Edit mode: when press on active cell you're in editting mode.
   
+    - Heading: using "#" to "######", to add some heading from H1 to H6 respectively.
+    - italics: using one asterisk "*" prefix and suffix the thing you want to make it italic.
+    - Bold: using two asterisk "**" prefix and suffix the thing you want to make it Bold.
+    - unorder list: using one hyphon "-" prefix and suffix the thing you want to make it unoreder list.
+    - order list: using numbers  prefix the thing you want to make it oreder list.
