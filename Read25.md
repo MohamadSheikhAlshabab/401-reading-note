@@ -49,7 +49,7 @@
   - __Django REST Framework__:
     - Django REST Framework is added just like any other third-party app. 
     - `pipenv install djangorestframework~=3.11.0`.
-    - ## config/settings.py
+    -         ## config/settings.py
               INSTALLED_APPS = [
                   'django.contrib.admin',
                   'django.contrib.auth',
@@ -64,5 +64,87 @@
                   # Local
                   'books',
               ]
-              
-      - create a new api app.
+    ---
+    - create a new api app.
+          
+            `python manage.py startapp api`
+            
+            # config/settings.py
+            INSTALLED_APPS = [
+                'django.contrib.admin',
+                'django.contrib.auth',
+                'django.contrib.contenttypes',
+                'django.contrib.sessions',
+                'django.contrib.messages',
+                'django.contrib.staticfiles',
+
+                # 3rd party
+                'rest_framework',
+
+                # Local
+                'books',
+                'api', # new
+            ]
+
+    ---
+            # config/urls.py
+            from django.contrib import admin
+            from django.urls import path, include
+
+            urlpatterns = [
+                path('admin/', admin.site.urls),
+                path('api/', include('api.urls')), # new
+                path('', include('books.urls')),
+            ]
+    ---
+            
+    - Then create a urls.py file within the api app.`(library) $ touch api/urls.py`
+    
+            # api/urls.py
+            from django.urls import path
+            from .views import BookAPIView
+
+            urlpatterns = [
+                path('', BookAPIView.as_view()),
+            ]
+            
+            
+            # api/views.py
+            from rest_framework import generics
+
+            from books.models import Book
+            from .serializers import BookSerializer
+
+
+            class BookAPIView(generics.ListAPIView):
+                queryset = Book.objects.all()
+                serializer_class = BookSerializer
+                
+      ---
+
+      - __Serializers__: A serializer translates data into a format that is easy to consume over the internet, typically JSON, and is displayed at an API endpoint.
+      
+          - `(library) $ touch api/serializers.py`
+                  # api/serializers.py
+                  from rest_framework import serializers
+
+                  from books.models import Book
+
+
+                  class BookSerializer(serializers.ModelSerializer):
+                      class Meta:
+                          model = Book
+                          fields = ('title', 'subtitle', 'author', 'isbn')
+                          
+     - __cURL__: We want to see what our API endpoint looks like. We know it should return JSON at the URL http://127.0.0.1:8000/api/. Let’s ensure that our local Django server is running:`(library) $ python manage.py runserver`
+     
+     
+                          $ curl http://127.0.0.1:8000/api/
+                            [  
+                               {  
+                                  "title":"Django for Beginners",
+                                  "subtitle":"Build websites with Python and Django",
+                                  "author":"William S. Vincent",
+                                  "isbn":"978-198317266"
+                               }
+                            ]
